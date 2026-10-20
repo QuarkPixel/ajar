@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Ajar",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Type an intention before entering a site.",
   "minimum_chrome_version": "110",
   "permissions": ["storage", "webNavigation", "tabs"],
