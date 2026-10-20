@@ -33,7 +33,12 @@ Ajar is not affiliated with, endorsed by, or published by the Intender project.
 It is a personal, non-commercial fork and is not distributed through any
 extension store.
 
-## Icons
+## Icons and type
 
 The ghost glyph is from [Tabler Icons](https://github.com/tabler/tabler-icons)
 by Paweł Kuna, MIT licensed.
+
+The wordmark is set in [Encode Sans](https://fonts.google.com/specimen/Encode+Sans)
+by Pablo Impallari, converted to outlines and inlined as an SVG path so it
+renders identically everywhere without shipping a font file. Encode Sans is
+licensed under the SIL Open Font License 1.1.

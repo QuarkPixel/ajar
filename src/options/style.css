@@ -36,10 +36,16 @@ body {
 }
 
 h1 {
+  display: flex;
+  align-items: center;
   margin: 0;
-  font-size: 19px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
+  color: var(--ink);
+}
+
+h1 .wordmark-svg {
+  display: block;
+  width: auto;
+  height: 19px;
 }
 
 .lede {

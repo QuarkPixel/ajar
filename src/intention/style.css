@@ -2,6 +2,7 @@
 
 :root {
   --entry-size: clamp(21px, 2.3vw, 27px);
+  --wordmark-size: 17px;
 }
 
 html,
@@ -68,10 +69,19 @@ body:has(.field:focus-within) .mark {
 
 .wordmark {
   margin: 0;
-  font-size: 16px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
   color: var(--ink);
+}
+
+/*
+ * The drawing's baseline sits at 75.2% of its height (the `j` hangs below it),
+ * so pulling the box up by the remaining 24.8% puts the letters on the same
+ * baseline as the destination next to them.
+ */
+.wordmark-svg {
+  display: block;
+  width: auto;
+  height: var(--wordmark-size);
+  margin-bottom: calc(var(--wordmark-size) * -0.248);
 }
 
 .divider {
