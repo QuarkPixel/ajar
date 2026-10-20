@@ -46,22 +46,25 @@ is not asked again while it stays there, and leaving the site resets it.
 
 ## Install
 
-Chromium only, unpacked.
+Chromium only, unpacked. There is no store listing.
+
+Grab `ajar-<version>.zip` from [Releases][releases], open `chrome://extensions`,
+switch on **Developer mode**, and drag the zip onto the page. Chrome unpacks it
+into your profile and labels it as an unpacked extension — that is what loading
+from disk means, and it has no effect on how the extension works.
+
+To build it yourself:
 
 ```bash
 npm install
 npm run zip          # builds dist/ and packs release/ajar-<version>.zip
 ```
 
-Then open `chrome://extensions`, enable **Developer mode**, and drag
-`release/ajar-<version>.zip` onto the page. Chrome unpacks it into your
-profile; there is no store listing and no update channel. Chrome will label it
-as an unpacked extension — that is what loading from disk means, and it has no
-effect on how the extension works.
-
 For development, `npm run dev` rebuilds on change — reload the extension from
 `chrome://extensions` to pick up the new bundle. Loading `dist/` directly as an
 unpacked extension works as well.
+
+[releases]: https://github.com/QuarkPixel/ajar/releases
 
 ## Using it
 
