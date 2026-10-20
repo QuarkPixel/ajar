@@ -43,6 +43,8 @@ h1 {
 }
 
 h1 .wordmark-svg {
+  position: relative;
+  top: 2px;
   display: block;
   width: auto;
   height: 19px;

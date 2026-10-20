@@ -8,6 +8,7 @@
     "dev": "vite build --watch --mode development",
     "build": "tsc --noEmit && vite build",
     "zip": "npm run build && node scripts/zip.mjs",
+    "release": "node scripts/release.mjs",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {

@@ -83,6 +83,18 @@ Click the toolbar icon to open the list. Each row is a site and a phrase:
 Everything saves as you type. The prompt can be dismissed with `Esc`, which
 takes you back where you came from.
 
+## Releasing
+
+```bash
+npm run release            # 1.1.0 → 1.1.1
+npm run release -- minor   # 1.2.0
+npm run release -- 2.0.0   # explicit
+```
+
+Bumps the version, builds, packs, commits, tags, pushes and publishes the
+release with the zip attached. Needs `gh` signed in and a clean working tree —
+the release commit only ever contains the version bump.
+
 ## Built with
 
 Vite + TypeScript, no framework, no runtime dependencies. Three entry points:
