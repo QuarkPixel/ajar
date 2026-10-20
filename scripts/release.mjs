@@ -21,8 +21,12 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const run = (command, args) =>
   execFileSync(command, args, { cwd: root, stdio: 'inherit' });
 
-const capture = (command, args) =>
-  execFileSync(command, args, { cwd: root, encoding: 'utf8' }).trim();
+const capture = (command, args, options = {}) =>
+  execFileSync(command, args, {
+    cwd: root,
+    encoding: 'utf8',
+    ...options,
+  }).trim();
 
 const fail = message => {
   console.error(`\n  ✗ ${message}\n`);
@@ -85,20 +89,32 @@ if (!existsSync(archive)) fail(`Expected archive is missing: ${archive}`);
 
 // -------------------------------------------------------------------- notes
 
+// Releases are created on the remote, so the tag for the previous version may
+// not exist locally yet — fetch it, otherwise every commit ends up in the log.
+try {
+  capture('git', ['fetch', '--tags', '--quiet'], {
+    stdio: ['ignore', 'pipe', 'ignore'],
+  });
+} catch {
+  /* offline: fall back to whatever tags are already here */
+}
+
+const quiet = { stdio: ['ignore', 'pipe', 'ignore'] };
+
 let previous = '';
 try {
-  previous = capture('git', ['describe', '--tags', '--abbrev=0']);
+  previous = capture('git', ['describe', '--tags', '--abbrev=0'], quiet);
 } catch {
   /* first release */
 }
 
 let changes = '';
 try {
-  changes = capture('git', [
-    'log',
-    '--pretty=format:- %s',
-    previous ? `${previous}..HEAD` : 'HEAD',
-  ]);
+  changes = capture(
+    'git',
+    ['log', '--pretty=format:- %s', previous ? `${previous}..HEAD` : 'HEAD'],
+    quiet
+  );
 } catch {
   changes = '';
 }
