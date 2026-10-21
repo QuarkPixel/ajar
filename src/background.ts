@@ -6,7 +6,7 @@
  * intention page. The page asks for a grant once the phrase has been typed.
  */
 
-import { matchRuleId } from './lib/rules';
+import { matchRuleId, type Rule } from './lib/rules';
 import { getRules } from './lib/store';
 
 const INTENTION_PAGE = 'intention/index.html';
@@ -109,6 +109,35 @@ async function redirectToPrompt(
   }
 }
 
+/**
+ * A background tab that opens a link from a tab already inside the same scope
+ * inherits the permission: opening a second tab of a site you are already in
+ * does not need a second intention. Deliberate navigation in the foreground
+ * still asks, which is what the original does with its "active tab same scope"
+ * rule.
+ */
+async function inheritsScope(
+  tabId: number,
+  ruleId: string,
+  rules: readonly Rule[]
+): Promise<boolean> {
+  try {
+    const tab = await chrome.tabs.get(tabId);
+    if (tab.active) return false;
+    if (typeof tab.windowId !== 'number') return false;
+
+    const [active] = await chrome.tabs.query({
+      active: true,
+      windowId: tab.windowId,
+    });
+    if (!active?.url) return false;
+
+    return matchRuleId(active.url, rules) === ruleId;
+  } catch {
+    return false;
+  }
+}
+
 async function inspect(tabId: number, url: string): Promise<void> {
   if (!isWebUrl(url)) return;
 
@@ -126,6 +155,11 @@ async function inspect(tabId: number, url: string): Promise<void> {
 
   // Already inside this scope — no need to ask again for the same visit.
   if (granted === ruleId) return;
+
+  if (await inheritsScope(tabId, ruleId, rules)) {
+    await grant(tabId, ruleId);
+    return;
+  }
 
   await redirectToPrompt(tabId, ruleId, url);
 }

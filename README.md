@@ -42,7 +42,10 @@ is always on; there is no switch for it.
 
 Matching, the redirect-to-prompt flow and the "already inside this site" logic
 follow the original's behaviour: a tab that has been granted access to a site
-is not asked again while it stays there, and leaving the site resets it.
+is not asked again while it stays there, and leaving the site resets it. A link
+opened in a background tab inherits that permission, so a second tab of a site
+you are already in does not ask again — deliberately navigating there in the
+foreground still does.
 
 ## Install
 
